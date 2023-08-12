@@ -3,6 +3,8 @@ from PyQt6.uic import loadUi
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QDialog, QApplication, QWidget
 
+
+
 # Control everything on Welcome Screen
 class WelcomeScreen(QDialog):
     def __init__(self):
@@ -26,8 +28,28 @@ class LoginScreen(WelcomeScreen,QDialog):
         super(LoginScreen,self).__init__()
         # load the UI of login Screen
         loadUi('login.ui',self)
+        # hide the password field
+        # this is works with pyqt6 not like pyqt5.
+        self.passwordField.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
+        # clicked buttons
+        # login btn
+        self.btn_login2.clicked.connect(self.loginfunction)
         # if this clicked it will exec the goback func
         self.back_btn.clicked.connect(self.goback)
+
+    def loginfunction(self,QtWidgets):
+        username = self.usernameField.text()
+        password = self.passwordField.text()
+        if len(username)==0 or len(password)==0:
+            self.error_message_1.setText('Empty Field !!')
+        elif username == 'leon' and password == '12345':
+            print('login seccessfully !!')
+            #clear the messages
+            self.error_message_1.setText('')
+            self.error_message_2.setText('')
+        else:
+            self.error_message_2.setText('Invalid Username Or Password !!')
+            self.error_message_1.setText('')
     # go back func
     def goback(self):
         logout = WelcomeScreen()
